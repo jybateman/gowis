@@ -1,4 +1,4 @@
- package main
+package main
 
 import (
 	"os"
@@ -73,7 +73,7 @@ func getLinks(n *html.Node, lst *[]string) {
 	}
 }
 
-func getDomain() {
+func GetDomain() {
 	var lst []string
 
 	f, err := os.Create("domain_list")
@@ -104,8 +104,20 @@ func getDomain() {
 	}
 }
 
+func GetIP() {
+	resp, err := http.Get(IPV4)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	b, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(b))
+}
+
 func main() {
-	getDomain()
+	// GetDomain()
 	// getWhois("https://www.iana.org/domains/root/db/com.html")
 	// getWhois("https://www.iana.org/domains/root/db/abb.html")
+	GetIP()
 }

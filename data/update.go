@@ -9,7 +9,8 @@ import (
 	"strings"
 	"net/http"
 	"io/ioutil"
-
+	"encoding/csv"
+	
 	"golang.org/x/net/html"
 )
 
@@ -64,8 +65,6 @@ func findTable(n *html.Node) *html.Node {
 
 func getLinks(n *html.Node, lst *[]string) {
 	if n.Data == "a" {
-		// fmt.Println(n.Attr[0].Val)
-		// fmt.Println(n.FirstChild.Data)
 		*lst = append(*lst, n.Attr[0].Val, n.FirstChild.Data)
 	}
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
@@ -104,15 +103,60 @@ func GetDomain() {
 	}
 }
 
-func GetIP() {
+func getIP4() {
 	resp, err := http.Get(IPV4)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	defer resp.Body.Close()
-	b, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(b))
+	
+	f, err := os.Create("ipv4_list")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	read := csv.NewReader(resp.Body)
+	rec, err := read.Read()
+	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
+		ipnet := strings.Split(rec[0], "/")
+		if len(rec[3]) <= 0 {
+			rec[3] = "whois.iana.org"
+		}
+		f.WriteString(ipnet[0]+".0.0.0/"+ipnet[1]+" "+rec[3]+"\n")
+	}
+}
+
+func getIP6() {
+	resp, err := http.Get(IPV6)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	
+	f, err := os.Create("ipv6_list")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	read := csv.NewReader(resp.Body)
+	rec, err := read.Read()
+	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
+		if len(rec[3]) <= 0 {
+			rec[3] = "whois.iana.org"
+		}
+		f.WriteString(rec[0]+" "+rec[3]+"\n")
+	}
+}
+
+func GetIP() {
+	getIP4()
+	getIP6()
 }
 
 func main() {
@@ -120,4 +164,5 @@ func main() {
 	// getWhois("https://www.iana.org/domains/root/db/com.html")
 	// getWhois("https://www.iana.org/domains/root/db/abb.html")
 	GetIP()
+	GetDomain()
 }

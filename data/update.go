@@ -159,10 +159,69 @@ func GetIP() {
 	getIP6()
 }
 
+func getAS() {
+	resp, err := http.Get(AS)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	
+	f, err := os.Create("as_list")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	read := csv.NewReader(resp.Body)
+	rec, err := read.Read()
+	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
+		if !strings.Contains(rec[0], "-") {
+			rec[0] = rec[0]+"-"+rec[0]
+		}
+		if len(rec[2]) <= 0 {
+			rec[2] = "whois.iana.org"
+		}
+		f.WriteString(rec[0]+" "+rec[2]+"\n")
+	}
+}
+
+func getAS32() {
+	resp, err := http.Get(AS32)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	
+	f, err := os.Create("as32_list")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	read := csv.NewReader(resp.Body)
+	rec, err := read.Read()
+	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
+		if !strings.Contains(rec[0], "-") {
+			rec[0] = rec[0]+"-"+rec[0]
+		}
+		if len(rec[2]) <= 0 {
+			rec[2] = "whois.iana.org"
+		}
+		f.WriteString(rec[0]+" "+rec[2]+"\n")
+	}
+}
+
+func GetAS() {
+	getAS()
+	getAS32()
+}
+
 func main() {
+	// GetIP()
 	// GetDomain()
-	// getWhois("https://www.iana.org/domains/root/db/com.html")
-	// getWhois("https://www.iana.org/domains/root/db/abb.html")
-	GetIP()
-	GetDomain()
+	GetAS()
 }

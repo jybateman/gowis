@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"flag"
+	"strings"
 )
 
 var host string
@@ -16,6 +17,7 @@ func init() {
 
 func main() {
 	flag.Parse()
-	fmt.Println(flag.Args())
-	flag.Usage()
+	// fmt.Println(flag.Args())
+	// flag.Usage()
+	GetType(strings.Join(flag.Args(), " "))
 }

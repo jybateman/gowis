@@ -22,7 +22,13 @@ func main() {
 	args := strings.Join(flag.Args(), " ")
 	switch GetType(args) {
 	case IPV4:
-		fmt.Println(getWhois(args, "data/ipv4_list"))
+		fmt.Println(getIPWhois(args, "data/ipv4_list"))
+		break
+	case AS:
+		fmt.Println(getASWhois(args, "data/as_list"))
+		break
+	case AS32:
+		fmt.Println(getASWhois(args, "data/as32_list"))
 		break
 	}
 }

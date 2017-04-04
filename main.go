@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"flag"
 	"strings"
 )
@@ -19,5 +19,10 @@ func main() {
 	flag.Parse()
 	// fmt.Println(flag.Args())
 	// flag.Usage()
-	GetType(strings.Join(flag.Args(), " "))
+	args := strings.Join(flag.Args(), " ")
+	switch GetType(args) {
+	case IPV4:
+		fmt.Println(getWhois(args, "data/ipv4_list"))
+		break
+	}
 }

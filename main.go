@@ -30,5 +30,8 @@ func main() {
 	case AS32:
 		fmt.Println(getASWhois(args, "data/as32_list"))
 		break
+	case DNS:
+		fmt.Println(getDNSWhois(args))
+		break
 	}
 }

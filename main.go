@@ -1,7 +1,10 @@
 package main
 
 import (
+	"os"
+	"fmt"
 	"flag"
+	"strings"
 )
 
 var host string
@@ -14,6 +17,11 @@ func init() {
 }
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION] QUERY:\n", os.Args[0])
+		flag.PrintDefaults()
+	}
 	flag.Parse()
 	getHost()
+	TCPRequest(strings.Join(flag.Args(), " "))
 }

@@ -33,5 +33,7 @@ func main() {
 	case DNS:
 		fmt.Println(getDNSWhois(args))
 		break
+	default:
+		fmt.Println("No whois server is known for this kind of object.")
 	}
 }

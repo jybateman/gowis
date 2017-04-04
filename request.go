@@ -1,20 +1,23 @@
 package main
 
 import (
+	"io"
 	"os"
 	"net"
 	"fmt"
+	"bytes"
 )
 
 func TCPRequest(req string) {
-	b := make([]byte, 2048)
-	fmt.Printf("%s:%d\n", host, port)
-	c, err := net.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
+	var buf bytes.Buffer
+	
+	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return
 	}
-	c.Write([]byte(req+"\n"))
-	c.Read(b)
-	fmt.Println(string(b))
+	defer conn.Close()
+	conn.Write([]byte(req+"\n"))
+	io.Copy(&buf, conn)
+	fmt.Print(buf.String())
 }

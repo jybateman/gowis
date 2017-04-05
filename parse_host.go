@@ -110,7 +110,7 @@ func GetType(str string) int {
 	return INV
 }
 
-func getHost() {
+func GetHost() {
 	if len(host) == 0 {
 		args := strings.Join(flag.Args(), " ")
 		switch GetType(args) {

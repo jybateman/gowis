@@ -22,6 +22,6 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
-	getHost()
+	GetHost()
 	TCPRequest(strings.Join(flag.Args(), " "))
 }

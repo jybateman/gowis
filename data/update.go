@@ -122,7 +122,9 @@ func getIP4() {
 	rec, err := read.Read()
 	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
 		ipnet := strings.Split(rec[0], "/")
-		if len(rec[3]) <= 0 {
+		if rec[len(rec)-2] == "RESERVED" {
+			rec[3] = "RESERVED"
+		} else if len(rec[3]) <= 0 {
 			rec[3] = "whois.iana.org"
 		}
 		f.WriteString(ipnet[0]+".0.0.0/"+ipnet[1]+" "+rec[3]+"\n")
@@ -147,7 +149,9 @@ func getIP6() {
 	read := csv.NewReader(resp.Body)
 	rec, err := read.Read()
 	for rec, err = read.Read(); err == nil; rec, err = read.Read() {
-		if len(rec[3]) <= 0 {
+		if rec[len(rec)-2] == "RESERVED" {
+			rec[3] = "RESERVED"
+		} else if len(rec[3]) <= 0 {
 			rec[3] = "whois.iana.org"
 		}
 		f.WriteString(rec[0]+" "+rec[3]+"\n")
@@ -221,7 +225,7 @@ func GetAS() {
 }
 
 func main() {
-	// GetIP()
+	GetIP()
 	// GetDomain()
-	GetAS()
+	// GetAS()
 }

@@ -15,7 +15,7 @@
 2001:2000::/20 whois.ripe.net
 2001:3000::/21 whois.ripe.net
 2001:3800::/22 whois.ripe.net
-2001:3c00::/22 whois.iana.org
+2001:3c00::/22 RESERVED
 2001:4000::/23 whois.ripe.net
 2001:4200::/23 whois.afrinic.net
 2001:4400::/23 whois.apnic.net
@@ -36,8 +36,8 @@
 2800:0000::/12 whois.lacnic.net
 2a00:0000::/12 whois.ripe.net
 2c00:0000::/12 whois.afrinic.net
-2d00:0000::/8 whois.iana.org
-2e00:0000::/7 whois.iana.org
-3000:0000::/4 whois.iana.org
-3ffe::/16 whois.iana.org
-5f00::/8 whois.iana.org
+2d00:0000::/8 RESERVED
+2e00:0000::/7 RESERVED
+3000:0000::/4 RESERVED
+3ffe::/16 RESERVED
+5f00::/8 RESERVED
